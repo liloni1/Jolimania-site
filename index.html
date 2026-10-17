@@ -348,6 +348,39 @@ table.orders{width:100%;border-collapse:collapse;font-weight:700;font-size:14px}
 .faq h2{margin:28px 0 4px}
 .copy{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
 .copy .legal a{color:inherit} .prose h2{margin-top:26px;margin-bottom:8px}
+.co-steps{display:flex;gap:0;list-style:none;padding:0;margin:14px 0 22px;counter-reset:s}
+.co-steps li{flex:1;display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px;color:var(--muted);position:relative;padding-right:14px}
+.co-steps li span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);background:var(--surface);font-weight:900;flex:none}
+.co-steps li.on{color:var(--fg)}.co-steps li.on span{background:var(--purple);border-color:var(--purple);color:#fff}
+.co-steps li.done span{background:var(--good);border-color:var(--good);color:#fff}
+.co-steps li:not(:last-child)::after{content:"";flex:1;height:2px;background:var(--line);margin-left:4px}
+.co-main h2{margin:0 0 12px;font-size:26px}
+.co-form{max-width:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}.three-col{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:12px}
+.co-form select.sel{width:100%;padding:10px 12px;font-weight:600}
+.co-box{display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface-2);font-weight:700;margin-bottom:14px}
+.co-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.co-opt{display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);color:var(--fg);font:inherit;cursor:pointer}
+.co-opt b{display:block;font-size:15px}.co-opt small{display:block;color:var(--muted);font-weight:700;font-size:13px}
+.co-opt.on{border-color:var(--purple);box-shadow:0 0 0 2px var(--purple) inset}
+.co-opt.dis{opacity:.55;cursor:not-allowed}
+.co-opt input[type=radio]{accent-color:var(--purple);width:18px;height:18px;flex:none}
+.co-opt>div{flex:1}.co-opt>span{font-weight:900}
+.co-ship{display:grid;gap:10px}
+.co-check{display:flex!important;align-items:center;gap:8px;font-weight:700!important;font-size:14px!important}
+.co-check input{accent-color:var(--purple);width:16px;height:16px}
+.co-review{display:grid;gap:8px;border:2px solid var(--line);border-radius:12px;padding:14px;background:var(--surface-2);font-weight:600;font-size:14px;margin-bottom:18px;position:relative}
+.co-review b{display:inline-block;width:90px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.co-review a{position:absolute;right:14px;top:12px;font-weight:800}
+.co-cardhead{display:flex;justify-content:space-between;align-items:center}
+.co-brands i{display:inline-block;font-style:normal;font-size:10px;font-weight:900;border:2px solid var(--line);border-radius:5px;padding:2px 6px;margin-left:4px;color:var(--muted)}
+.co-item{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;font-size:13px;font-weight:700}
+.co-item img{width:48px;height:48px;object-fit:contain;background:#fff;border:2px solid var(--ink);border-radius:8px}
+.co-item b{display:block;font-size:13px;line-height:1.25}.co-item small{color:var(--muted)}
+.co-fail{border:3px solid var(--bad);background:var(--surface);border-radius:14px;padding:16px;display:grid;gap:6px;font-weight:700}
+.co-fail b{color:var(--bad);font-size:16px}
+.btn.busy{opacity:.7;pointer-events:none}
+@media (max-width:760px){.co-choice,.two-col,.three-col{grid-template-columns:1fr}.co-steps li{font-size:0;gap:0}.co-steps li span{font-size:14px}}
 .checkout-dead{text-align:center;padding:60px 20px;border:4px dashed var(--purple);border-radius:20px;background:var(--surface);margin-block:30px}
 .checkout-dead .big{font-family:var(--font-display);font-size:clamp(34px,6vw,70px);color:var(--orange);text-shadow:3px 3px 0 var(--ink)}
 .rewards-balance{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
@@ -566,7 +599,26 @@ function searchHTML(){const q=searchQuery.trim().toLowerCase();const terms=q.spl
 function cartPageHTML(){const sub=subtotal(),ship=sub>=150||sub===0?0:9.95;return `<div class="crumbs"><a href="#home">Home</a> › Cart</div><h1>Your cart</h1>
  ${cart.length?`<div class="cart-layout" style="margin-top:14px"><div class="cart-table" style="display:grid;gap:12px">${cart.map(i=>cartItemHTML(i,true)).join("")}<a class="btn" href="#c-all" style="justify-self:start">← Keep shopping</a></div>
  <div class="summary"><h3>Order summary</h3><div class="line"><span>Subtotal</span><span>${money(sub)}</span></div><div class="line"><span>Standard shipping</span><span>${ship?money(ship):"FREE"}</span></div><div class="line total"><span>Total</span><span>${money(sub+ship)}</span></div><div style="font-size:12px;color:var(--muted);font-weight:700">GST included. Shipping finalised at checkout.</div><a class="btn btn-y" href="#checkout">Proceed to checkout</a></div></div>`:`<div class="empty" style="margin-top:20px">Your cart is empty. Tragic. <a href="#c-sale">The sale</a> can fix that.</div>`}`}
-function checkoutHTML(){return `<div class="checkout-dead"><div class="eyebrow">Checkout</div><div class="big">SOMETHING WENT WRONG</div><p style="font-weight:700;font-size:17px;max-width:50ch;margin:12px auto">We couldn't load checkout. Your cart is saved, so please try again in a few minutes.</p><div class="row" style="justify-content:center;margin-top:10px"><a class="btn btn-p" href="#cart">Back to cart</a><a class="btn btn-y" href="#c-all">Keep browsing</a></div><div style="margin-top:18px;font-weight:800;color:var(--muted)">Cart subtotal: ${money(subtotal())} · ${cart.reduce((s,i)=>s+i.qty,0)} item(s)</div></div>`}
+const AU_STATES=["NSW","VIC","QLD","WA","SA","TAS","ACT","NT"];
+let co=store.get("checkout",{step:1,mode:null,email:"",addr:{},ship:"std"});
+function coSave(){store.set("checkout",co)}
+function coShipCost(){const sub=subtotal();if(co.ship==="exp")return 14.95;return sub>=150?0:9.95}
+function coStepsHTML(){const names=["Contact","Delivery","Payment"];return `<ol class="co-steps">${names.map((n,i)=>`<li class="${co.step===i+1?'on':co.step>i+1?'done':''}"><span>${co.step>i+1?'✓':i+1}</span>${n}</li>`).join("")}</ol>`}
+function coSummaryHTML(){const sub=subtotal(),ship=coShipCost();return `<aside class="summary co-sum"><h3 style="margin:0 0 4px">Order summary</h3>${cart.map(i=>{const p=byId(i.id);return `<div class="co-item"><img src="${art(p)}" alt="" loading="lazy"><div><b>${esc(p.name)}</b><small>Qty ${i.qty}</small></div><span>${money(p.price*i.qty)}</span></div>`}).join("")}<div class="line" style="margin-top:6px"><span>Subtotal</span><span>${money(sub)}</span></div><div class="line"><span>${co.ship==="exp"?"Express":"Standard"} shipping</span><span>${ship?money(ship):"FREE"}</span></div><div class="line total"><span>Total</span><span>${money(sub+ship)}</span></div><div style="font-size:12px;color:var(--muted);font-weight:700">GST included. <a href="#cart">Edit cart</a></div></aside>`}
+function checkoutHTML(){if(!cart.length)return `<div class="crumbs"><a href="#home">Home</a> › Checkout</div><div class="empty" style="margin-top:20px">Your cart is empty. <a href="#c-all">Find something good</a>.</div>`;
+ if(user&&!co.email){co.email=user.email;co.mode="account";if(user.addr)co.addr=Object.assign({},user.addr);else if(!co.addr.name)co.addr.name=user.name}
+ const a=co.addr;const field=(id,label,val,extra="")=>`<label>${label}<input id="${id}" value="${esc(val||"")}" ${extra}></label>`;
+ let body="";
+ if(co.step===1){body=`<h2>Contact</h2>${user?`<div class="co-box"><div><b>${esc(user.name)}</b><br><span style="color:var(--muted)">${esc(user.email)}</span></div><button class="btn btn-sm" id="logout">Log out</button></div><form class="form" id="coContact"><button class="btn btn-p">Continue to delivery</button></form>`
+ :`<div class="co-choice"><button class="co-opt ${co.mode==='guest'?'on':''}" data-comode="guest"><b>Continue as guest</b><small>Just an email for your receipt and tracking.</small></button><button class="co-opt ${co.mode==='login'?'on':''}" data-comode="login"><b>Log in</b><small>Faster checkout with your saved details.</small></button></div>
+ ${co.mode==="login"?`<form class="form" id="loginForm" style="margin-top:16px"><label>Email<input type="email" id="liEmail" required></label><label>Password<input type="password" id="liPass" required></label><div class="err" id="liErr"></div><button class="btn btn-p">Log in and continue</button><small style="color:var(--muted);font-weight:700">No account? <a href="javascript:void 0" data-comode="guest">Check out as a guest</a> and create one at the end.</small></form>`
+ :co.mode==="guest"?`<form class="form" id="coContact" style="margin-top:16px"><label>Email address<input type="email" id="coEmail" value="${esc(co.email)}" required placeholder="you@email.com" autocomplete="email"></label><label class="co-check"><input type="checkbox" id="coNews" checked> Email me about restocks and new drops</label><div class="err" id="coErr"></div><button class="btn btn-p">Continue to delivery</button></form>`:""}`}`}
+ else if(co.step===2){body=`<h2>Delivery</h2><form class="form co-form" id="coDelivery" autocomplete="on"><div class="two-col">${field("adName","Full name",a.name,'required autocomplete="name"')}${field("adPhone","Mobile number",a.phone,'required inputmode="tel" autocomplete="tel" placeholder="04xx xxx xxx"')}</div>${field("adLine1","Street address",a.line1,'required autocomplete="address-line1" placeholder="12 Example St"')}${field("adLine2","Apartment, unit, etc. (optional)",a.line2,'autocomplete="address-line2"')}<div class="three-col">${field("adCity","Suburb",a.city,'required autocomplete="address-level2"')}<label>State<select id="adState" class="sel" required><option value="">Select</option>${AU_STATES.map(s=>`<option ${a.state===s?"selected":""}>${s}</option>`).join("")}</select></label>${field("adPc","Postcode",a.pc,'required inputmode="numeric" maxlength="4" autocomplete="postal-code"')}</div>
+ <h3 style="margin:14px 0 4px">Delivery method</h3><div class="co-ship"><label class="co-opt ${co.ship==='std'?'on':''}"><input type="radio" name="ship" value="std" ${co.ship==='std'?'checked':''}><div><b>Standard</b><small>3 to 6 business days, tracked</small></div><span>${subtotal()>=150?"FREE":"$9.95"}</span></label><label class="co-opt ${co.ship==='exp'?'on':''}"><input type="radio" name="ship" value="exp" ${co.ship==='exp'?'checked':''}><div><b>Express</b><small>1 to 3 business days, tracked</small></div><span>$14.95</span></label><label class="co-opt dis"><input type="radio" disabled><div><b>Click &amp; Collect</b><small>Coming soon</small></div><span></span></label></div>
+ ${user?`<label class="co-check"><input type="checkbox" id="adSave" checked> Save this address to my account</label>`:""}<div class="err" id="coErr"></div><div class="row"><button class="btn" type="button" data-costep="1">← Back</button><button class="btn btn-p" style="flex:1">Continue to payment</button></div></form>`}
+ else{body=`<h2>Payment</h2><div class="co-review"><div><b>Contact</b>${esc(co.email)}</div><div><b>Deliver to</b>${esc(a.name)}, ${esc(a.line1)}${a.line2?", "+esc(a.line2):""}, ${esc(a.city)} ${esc(a.state)} ${esc(a.pc)}</div><div><b>Method</b>${co.ship==="exp"?"Express":"Standard"} shipping</div><a href="javascript:void 0" data-costep="2">Edit</a></div>
+ <form class="form co-form" id="coPay" autocomplete="off"><div class="co-cardhead"><b>Card details</b><span class="co-brands"><i>VISA</i><i>MC</i><i>AMEX</i></span></div><label>Card number<input id="pyNum" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" required autocomplete="cc-number"></label><div class="two-col"><label>Expiry<input id="pyExp" inputmode="numeric" placeholder="MM / YY" maxlength="7" required autocomplete="cc-exp"></label><label>CVC<input id="pyCvc" inputmode="numeric" placeholder="123" maxlength="4" required autocomplete="cc-csc"></label></div><label>Name on card<input id="pyName" required autocomplete="cc-name" value="${esc(a.name||"")}"></label><label class="co-check"><input type="checkbox" id="pyBill" checked> Billing address same as delivery</label><div class="err" id="coErr"></div><button class="btn btn-p" id="payBtn" style="height:50px;font-size:16px">Pay ${money(subtotal()+coShipCost())}</button><small style="color:var(--muted);font-weight:700;text-align:center">🔒 Secure checkout. Card details are never stored by JOLIMANIA.</small></form>`}
+ return `<div class="crumbs"><a href="#home">Home</a> › <a href="#cart">Cart</a> › Checkout</div><h1>Checkout</h1>${coStepsHTML()}<div class="cart-layout co-layout"><div class="co-main">${body}</div>${coSummaryHTML()}</div>`}
 
 function aboutHTML(){return `<section class="about-hero"><div><div class="eyebrow">About JOLIMANIA</div><h1>Three mates. One very full spare room.</h1><p class="lead">We're an online collectibles shop run by people who collect. Sealed TCG, sport cards, LEGO and tested retro gaming, shipped Australia-wide.</p><div class="row" style="margin-top:18px"><a class="btn btn-p" href="#c-all">Shop the range</a><a class="btn" href="#faq">FAQ</a></div></div><div class="about-img"><img src="img/about.webp" alt="A spread of trading cards on a table" decoding="async"></div></section>
 <section class="about-stats"><div><b>2pm</b>same day dispatch cutoff</div><div><b>100+</b>products in stock</div><div><b>300+</b>five star reviews</div><div><b>AU</b>wide tracked shipping</div></section>
@@ -662,6 +714,8 @@ function buildNav(){$("#navList").innerHTML=NAV.map(n=>`<li><a class="top" data-
 
 /* ========================= EVENTS ========================= */
 document.addEventListener("click",e=>{
+ const cm=e.target.closest("[data-comode]");if(cm){co.mode=cm.dataset.comode;coSave();render();return}
+ const cs=e.target.closest("[data-costep]");if(cs){co.step=+cs.dataset.costep;coSave();render();window.scrollTo({top:0});return}
  const sec=e.target.closest("[data-sec]");if(sec){document.getElementById(sec.dataset.sec)?.scrollIntoView({behavior:"smooth",block:"start"});return}
  const t=e.target.closest("[data-add],[data-notify],[data-wish],[data-close],[data-q],[data-rm],[data-pg],#cartBtn,[data-rev],#burger,#mnClose,#qm,#qp,#addBtn,#pcBtn,#fclear,#ftoggle,#logout,#notify,#mainImg,.modal");if(!t)return;
  if(t.dataset.add)return addToCart(+t.dataset.add);
@@ -679,7 +733,7 @@ document.addEventListener("click",e=>{
  if(t.id==="pcBtn"){const pc=($("#pc").value||"").trim();const o=$("#pcOut");if(!/^\d{4}$/.test(pc)){o.textContent="Enter a 4-digit postcode.";return}const vic=pc[0]==="3",metro=vic&&+pc<3210;o.innerHTML=metro?"<b>Metro Melbourne:</b> Standard $9.95 (1 to 2 days) · Express $14.95 (next day) · Free standard over $150":vic?"<b>Regional VIC:</b> Standard $9.95 (2 to 4 days) · Express $14.95 (1 to 2 days) · Free standard over $150":"<b>Interstate:</b> Standard $9.95 (3 to 6 days) · Express $14.95 (1 to 3 days) · Free standard over $150";return}
  if(t.id==="fclear"){const slug=$("#filters").dataset.slug;collState[slug]={sort:collState[slug].sort,min:"",max:"",inStock:false,brands:[],page:1};render();return}
  if(t.id==="ftoggle"){$("#filters").classList.toggle("open");return}
- if(t.id==="logout"){user=null;store.set("user",null);renderCounts();toast("Logged out");render();return}
+ if(t.id==="logout"){user=null;store.set("user",null);co={step:1,mode:null,email:"",addr:{},ship:"std"};coSave();renderCounts();toast("Logged out");render();return}
  if(t.id==="notify"){t.textContent="We'll email you when it's back";t.disabled=true;return}
  
  if(t.id==="mainImg"){const m=document.createElement("div");m.className="modal";m.innerHTML=`<img src="${$("#mainImg img").src}" alt="Zoomed product image"><button class="x" aria-label="Close">✕</button>`;document.body.appendChild(m);return}
@@ -693,14 +747,31 @@ document.addEventListener("change",e=>{const t=e.target;
  else if(t.dataset.fb!==undefined){st.brands=t.checked?[...st.brands,t.dataset.fb]:st.brands.filter(b=>b!==t.dataset.fb)}
 
  st.page=1;const open=f.classList.contains("open");app.innerHTML=collectionHTML(f.dataset.slug,{open});});
+document.addEventListener("input",e=>{const t=e.target;if(t.id==="pyNum"){const v=t.value.replace(/\D/g,"").slice(0,16);t.value=v.replace(/(\d{4})(?=\d)/g,"$1 ")}else if(t.id==="pyExp"){const v=t.value.replace(/\D/g,"").slice(0,4);t.value=v.length>2?v.slice(0,2)+" / "+v.slice(2):v}else if(t.id==="pyCvc"||t.id==="adPc"){t.value=t.value.replace(/\D/g,"")}});
+document.addEventListener("change",e=>{const t=e.target;if(t.name==="ship"){co.ship=t.value;coSave();document.querySelectorAll(".co-ship .co-opt").forEach(l=>l.classList.toggle("on",l.querySelector("input").checked));const sum=document.querySelector(".co-sum");if(sum)sum.outerHTML=coSummaryHTML()}});
 document.addEventListener("submit",e=>{e.preventDefault();const f=e.target;
  if(f.id==="searchForm"){searchQuery=$("#searchInput").value;if(route().page==="s")render();else location.hash="#s";return}
+ if(f.id==="coContact"){if(!user){const em=($("#coEmail").value||"").trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$("#coErr").textContent="Enter a valid email address.";return}co.email=em;co.mode="guest"}else{co.email=user.email;co.mode="account"}co.step=2;coSave();render();window.scrollTo({top:0});return}
+ if(f.id==="coDelivery"){const a={name:$("#adName").value.trim(),phone:$("#adPhone").value.trim(),line1:$("#adLine1").value.trim(),line2:$("#adLine2").value.trim(),city:$("#adCity").value.trim(),state:$("#adState").value,pc:$("#adPc").value.trim()};const err=$("#coErr");
+  if(!a.name||!a.line1||!a.city||!a.state){err.textContent="Please fill in every required field.";return}
+  if(!/^0[2-9]\d{8}$/.test(a.phone.replace(/\s/g,""))){err.textContent="Enter a valid Australian mobile or landline number.";return}
+  if(!/^\d{4}$/.test(a.pc)){err.textContent="Postcode must be 4 digits.";return}
+  const pcState={NSW:[[1000,2599],[2619,2899],[2921,2999]],ACT:[[200,299],[2600,2618],[2900,2920]],VIC:[[3000,3999],[8000,8999]],QLD:[[4000,4999],[9000,9999]],SA:[[5000,5999]],WA:[[6000,6999]],TAS:[[7000,7999]],NT:[[800,999]]};const n=+a.pc;if(!pcState[a.state].some(([lo,hi])=>n>=lo&&n<=hi)){err.textContent=`That postcode doesn't look like it's in ${a.state}. Please check it.`;return}
+  co.addr=a;co.ship=f.querySelector('input[name=ship]:checked')?.value||"std";if(user&&$("#adSave")?.checked){user.addr=a;store.set("user",user);const users=store.get("users",{});if(users[user.email]){users[user.email].u=user;store.set("users",users)}}co.step=3;coSave();render();window.scrollTo({top:0});return}
+ if(f.id==="coPay"){const err=$("#coErr");const num=$("#pyNum").value.replace(/\D/g,""),exp=$("#pyExp").value.replace(/\D/g,""),cvc=$("#pyCvc").value.replace(/\D/g,"");
+  const luhn=s=>{let t=0,d=false;for(let i=s.length-1;i>=0;i--){let x=+s[i];if(d){x*=2;if(x>9)x-=9}t+=x;d=!d}return s.length>=13&&t%10===0};
+  if(!luhn(num)){err.textContent="That card number doesn't look right. Please check it.";return}
+  const mm=+exp.slice(0,2),yy=+exp.slice(2,4);const now=new Date();if(exp.length!==4||mm<1||mm>12||yy<now.getFullYear()%100||(yy===now.getFullYear()%100&&mm<now.getMonth()+1)){err.textContent="Enter a valid expiry date (MM / YY).";return}
+  if(cvc.length<3){err.textContent="Enter the 3 or 4 digit security code.";return}
+  if(!$("#pyName").value.trim()){err.textContent="Enter the name on the card.";return}
+  err.textContent="";f.querySelector(".co-fail")?.remove();const btn=$("#payBtn");btn.classList.add("busy");btn.textContent="Processing…";$("#pyNum").value="";$("#pyCvc").value="";
+  setTimeout(()=>{btn.classList.remove("busy");btn.textContent="Try again";f.insertAdjacentHTML("afterbegin",`<div class="co-fail"><b>Payment could not be processed</b>We couldn't reach our payment provider just now. You haven't been charged. Please try again in a few minutes, or email hello@jolimania.com.au and we'll hold your items.</div>`);f.querySelector(".co-fail").scrollIntoView({behavior:"smooth",block:"center"})},1400);return}
  if(f.id==="newsForm"){const em=$("#newsEmail").value;f.innerHTML=`<div style="font-weight:900;font-size:18px;color:var(--yellow)">You're in! Watch ${esc(em)} for the next drop.</div>`;return}
  if(f.id==="evForm"){$("#evOut").textContent="Thanks "+$("#evName").value+", you'll be the first to hear when the doors open.";return}
  if(f.id==="loginForm"){const em=$("#liEmail").value.trim().toLowerCase(),pw=$("#liPass").value;const users=store.get("users",{});
   if(em==="demo@jolimania.com.au"&&pw==="play"){user={name:"Sam Jolie",email:em,since:"Mar 2024",orders:[{id:"10482",date:"02 Oct 2026",items:"Prismatic Evolutions ETB, Dragon Shield Matte (Purple) x2",total:321.85,status:"Delivered"},{id:"10511",date:"09 Oct 2026",items:"Super Mario 64 (N64, boxed)",total:198.95,status:"Shipped"},{id:"10547",date:"15 Oct 2026",items:"MTG Final Fantasy Play Booster Box",total:349.95,status:"Pre-order"}]}}
   else if(users[em]&&users[em].pass===pw)user=users[em].u;else{$("#liErr").textContent="Wrong email or password. Try the demo login below.";return}
-  store.set("user",user);renderCounts();toast("Welcome back, "+user.name.split(" ")[0]+"!");render();return}
+  store.set("user",user);renderCounts();toast("Welcome back, "+user.name.split(" ")[0]+"!");if(route().page==="checkout"){co.mode="account";co.email=user.email;if(user.addr)co.addr=user.addr;co.step=2;coSave()}render();return}
  if(f.id==="regForm"){const nm=$("#rgName").value.trim(),em=$("#rgEmail").value.trim().toLowerCase(),pw=$("#rgPass").value;const users=store.get("users",{});if(users[em]){$("#rgErr").textContent="That email already has an account. Log in instead.";return}
   user={name:nm,email:em,since:"Oct 2026",orders:[]};users[em]={pass:pw,u:user};store.set("users",users);store.set("user",user);renderCounts();toast("Welcome, "+nm.split(" ")[0]+"!");render();return}
 });
