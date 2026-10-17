@@ -360,6 +360,17 @@ table.orders{width:100%;border-collapse:collapse;font-weight:700;font-size:14px}
 .co-form select.sel{width:100%;padding:10px 12px;font-weight:600}
 .co-box{display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface-2);font-weight:700;margin-bottom:14px}
 .co-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.co-pick{position:relative;display:grid;gap:4px;text-align:left;border:2px solid var(--line);border-radius:14px;padding:18px 18px 16px;background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;transition:border-color .12s,transform .12s}
+.co-pick:hover{border-color:var(--purple);transform:translateY(-1px)}
+.co-pick .ic{font-size:24px;line-height:1;margin-bottom:6px}
+.co-pick b{font-size:16px;font-weight:900}
+.co-pick small{color:var(--muted);font-weight:700;font-size:13px;line-height:1.4}
+.co-pick.on{border-color:var(--purple);box-shadow:0 0 0 2px var(--purple) inset,4px 4px 0 var(--purple)}
+.co-pick.on::after{content:"✓";position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;background:var(--purple);color:#fff;font-size:13px;font-weight:900;display:grid;place-items:center}
+.co-main h2{font-family:var(--font-body);font-weight:900;font-size:22px;color:var(--fg);text-transform:none;letter-spacing:0}
+.co-main h3{font-family:var(--font-body);font-size:15px}
+.co-sum h3{font-family:var(--font-body);font-size:16px;text-transform:none;letter-spacing:0;color:var(--fg)}
+.co-main .form{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:20px}
 .co-opt{display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);color:var(--fg);font:inherit;cursor:pointer}
 .co-opt b{display:block;font-size:15px}.co-opt small{display:block;color:var(--muted);font-weight:700;font-size:13px}
 .co-opt.on{border-color:var(--purple);box-shadow:0 0 0 2px var(--purple) inset}
@@ -367,6 +378,10 @@ table.orders{width:100%;border-collapse:collapse;font-weight:700;font-size:14px}
 .co-opt input[type=radio]{accent-color:var(--purple);width:18px;height:18px;flex:none}
 .co-opt>div{flex:1}.co-opt>span{font-weight:900}
 .co-ship{display:grid;gap:10px}
+.co-ship .co-opt{display:flex!important;flex-direction:row;align-items:center;gap:12px;font-size:inherit!important;padding:12px 14px}
+.co-ship .co-opt b{font-size:15px}
+.co-main .form{max-width:none}
+.co-main h3{color:var(--fg)}
 .co-check{display:flex!important;align-items:center;gap:8px;font-weight:700!important;font-size:14px!important}
 .co-check input{accent-color:var(--purple);width:16px;height:16px}
 .co-review{display:grid;gap:8px;border:2px solid var(--line);border-radius:12px;padding:14px;background:var(--surface-2);font-weight:600;font-size:14px;margin-bottom:18px;position:relative}
@@ -380,7 +395,7 @@ table.orders{width:100%;border-collapse:collapse;font-weight:700;font-size:14px}
 .co-fail{border:3px solid var(--bad);background:var(--surface);border-radius:14px;padding:16px;display:grid;gap:6px;font-weight:700}
 .co-fail b{color:var(--bad);font-size:16px}
 .btn.busy{opacity:.7;pointer-events:none}
-@media (max-width:760px){.co-choice,.two-col,.three-col{grid-template-columns:1fr}.co-steps li{font-size:0;gap:0}.co-steps li span{font-size:14px}}
+@media (max-width:760px){.co-choice,.two-col,.three-col{grid-template-columns:1fr}.co-main .form{padding:14px}.co-steps li{font-size:0;gap:0}.co-steps li span{font-size:14px}}
 .checkout-dead{text-align:center;padding:60px 20px;border:4px dashed var(--purple);border-radius:20px;background:var(--surface);margin-block:30px}
 .checkout-dead .big{font-family:var(--font-display);font-size:clamp(34px,6vw,70px);color:var(--orange);text-shadow:3px 3px 0 var(--ink)}
 .rewards-balance{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
@@ -600,7 +615,7 @@ function cartPageHTML(){const sub=subtotal(),ship=sub>=150||sub===0?0:9.95;retur
  ${cart.length?`<div class="cart-layout" style="margin-top:14px"><div class="cart-table" style="display:grid;gap:12px">${cart.map(i=>cartItemHTML(i,true)).join("")}<a class="btn" href="#c-all" style="justify-self:start">← Keep shopping</a></div>
  <div class="summary"><h3>Order summary</h3><div class="line"><span>Subtotal</span><span>${money(sub)}</span></div><div class="line"><span>Standard shipping</span><span>${ship?money(ship):"FREE"}</span></div><div class="line total"><span>Total</span><span>${money(sub+ship)}</span></div><div style="font-size:12px;color:var(--muted);font-weight:700">GST included. Shipping finalised at checkout.</div><a class="btn btn-y" href="#checkout">Proceed to checkout</a></div></div>`:`<div class="empty" style="margin-top:20px">Your cart is empty. Tragic. <a href="#c-sale">The sale</a> can fix that.</div>`}`}
 const AU_STATES=["NSW","VIC","QLD","WA","SA","TAS","ACT","NT"];
-let co=store.get("checkout",{step:1,mode:null,email:"",addr:{},ship:"std"});
+let co=store.get("checkout",{step:1,mode:"guest",email:"",addr:{},ship:"std"});
 function coSave(){store.set("checkout",co)}
 function coShipCost(){const sub=subtotal();if(co.ship==="exp")return 14.95;return sub>=150?0:9.95}
 function coStepsHTML(){const names=["Contact","Delivery","Payment"];return `<ol class="co-steps">${names.map((n,i)=>`<li class="${co.step===i+1?'on':co.step>i+1?'done':''}"><span>${co.step>i+1?'✓':i+1}</span>${n}</li>`).join("")}</ol>`}
@@ -610,7 +625,7 @@ function checkoutHTML(){if(!cart.length)return `<div class="crumbs"><a href="#ho
  const a=co.addr;const field=(id,label,val,extra="")=>`<label>${label}<input id="${id}" value="${esc(val||"")}" ${extra}></label>`;
  let body="";
  if(co.step===1){body=`<h2>Contact</h2>${user?`<div class="co-box"><div><b>${esc(user.name)}</b><br><span style="color:var(--muted)">${esc(user.email)}</span></div><button class="btn btn-sm" id="logout">Log out</button></div><form class="form" id="coContact"><button class="btn btn-p">Continue to delivery</button></form>`
- :`<div class="co-choice"><button class="co-opt ${co.mode==='guest'?'on':''}" data-comode="guest"><b>Continue as guest</b><small>Just an email for your receipt and tracking.</small></button><button class="co-opt ${co.mode==='login'?'on':''}" data-comode="login"><b>Log in</b><small>Faster checkout with your saved details.</small></button></div>
+ :`<div class="co-choice"><button class="co-pick ${co.mode==='guest'?'on':''}" data-comode="guest"><span class="ic">👤</span><b>Continue as guest</b><small>Just an email for your receipt and tracking.</small></button><button class="co-pick ${co.mode==='login'?'on':''}" data-comode="login"><span class="ic">🔑</span><b>Log in</b><small>Faster checkout with your saved details.</small></button></div>
  ${co.mode==="login"?`<form class="form" id="loginForm" style="margin-top:16px"><label>Email<input type="email" id="liEmail" required></label><label>Password<input type="password" id="liPass" required></label><div class="err" id="liErr"></div><button class="btn btn-p">Log in and continue</button><small style="color:var(--muted);font-weight:700">No account? <a href="javascript:void 0" data-comode="guest">Check out as a guest</a> and create one at the end.</small></form>`
  :co.mode==="guest"?`<form class="form" id="coContact" style="margin-top:16px"><label>Email address<input type="email" id="coEmail" value="${esc(co.email)}" required placeholder="you@email.com" autocomplete="email"></label><label class="co-check"><input type="checkbox" id="coNews" checked> Email me about restocks and new drops</label><div class="err" id="coErr"></div><button class="btn btn-p">Continue to delivery</button></form>`:""}`}`}
  else if(co.step===2){body=`<h2>Delivery</h2><form class="form co-form" id="coDelivery" autocomplete="on"><div class="two-col">${field("adName","Full name",a.name,'required autocomplete="name"')}${field("adPhone","Mobile number",a.phone,'required inputmode="tel" autocomplete="tel" placeholder="04xx xxx xxx"')}</div>${field("adLine1","Street address",a.line1,'required autocomplete="address-line1" placeholder="12 Example St"')}${field("adLine2","Apartment, unit, etc. (optional)",a.line2,'autocomplete="address-line2"')}<div class="three-col">${field("adCity","Suburb",a.city,'required autocomplete="address-level2"')}<label>State<select id="adState" class="sel" required><option value="">Select</option>${AU_STATES.map(s=>`<option ${a.state===s?"selected":""}>${s}</option>`).join("")}</select></label>${field("adPc","Postcode",a.pc,'required inputmode="numeric" maxlength="4" autocomplete="postal-code"')}</div>
@@ -733,7 +748,7 @@ document.addEventListener("click",e=>{
  if(t.id==="pcBtn"){const pc=($("#pc").value||"").trim();const o=$("#pcOut");if(!/^\d{4}$/.test(pc)){o.textContent="Enter a 4-digit postcode.";return}const vic=pc[0]==="3",metro=vic&&+pc<3210;o.innerHTML=metro?"<b>Metro Melbourne:</b> Standard $9.95 (1 to 2 days) · Express $14.95 (next day) · Free standard over $150":vic?"<b>Regional VIC:</b> Standard $9.95 (2 to 4 days) · Express $14.95 (1 to 2 days) · Free standard over $150":"<b>Interstate:</b> Standard $9.95 (3 to 6 days) · Express $14.95 (1 to 3 days) · Free standard over $150";return}
  if(t.id==="fclear"){const slug=$("#filters").dataset.slug;collState[slug]={sort:collState[slug].sort,min:"",max:"",inStock:false,brands:[],page:1};render();return}
  if(t.id==="ftoggle"){$("#filters").classList.toggle("open");return}
- if(t.id==="logout"){user=null;store.set("user",null);co={step:1,mode:null,email:"",addr:{},ship:"std"};coSave();renderCounts();toast("Logged out");render();return}
+ if(t.id==="logout"){user=null;store.set("user",null);co={step:1,mode:"guest",email:"",addr:{},ship:"std"};coSave();renderCounts();toast("Logged out");render();return}
  if(t.id==="notify"){t.textContent="We'll email you when it's back";t.disabled=true;return}
  
  if(t.id==="mainImg"){const m=document.createElement("div");m.className="modal";m.innerHTML=`<img src="${$("#mainImg img").src}" alt="Zoomed product image"><button class="x" aria-label="Close">✕</button>`;document.body.appendChild(m);return}
